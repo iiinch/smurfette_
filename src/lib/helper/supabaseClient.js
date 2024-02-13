@@ -1,10 +1,12 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient } from "@supabase/supabase-js";
 
-// Create a single supabase client for interacting with your database
-const supabase = createClient(
+
+export const supabase = createClient(
   
-  'https://xyzcompany.supabase.co',
+  process.env.REACT_APP_SUPABASE_URL,
   
-  'public-anon-key'
+  process.env.REACT_APP_SUPABASE_ANON_KEY
   
   )
+
+   

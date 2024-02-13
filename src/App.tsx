@@ -1,27 +1,23 @@
-import Header from "./components/Header"
-import Pricing from "./pages/princing"
-import Home from "./pages/Home"
-import About from "./pages/About"
-import{ Route, Routes } from "react-router-dom"
+import React from "react"; 
 
-function App () {
+import { supabase } from "./lib/helper/supabaseClient";
 
- 
-return (
-<>
+export default function App() {
 
-<Header />
-<div className="container">
-  <Routes>
-    <Route path="/" element={<Home />} />
-    <Route path="/ pricing"element={<Pricing />} />
-    <Route path="/ about"element={<About />} />
-  </Routes>
-</div>
-</>
 
-)
+  const login = async() => {
+    
+   await supabase.auth.signInWithOAuth({
+
+     provider:"github"
+   });
+  }
+   return (
+       <div>
+       <button onClick={login}>Login with Github</button>
+      
+       </div>
+
+  );
+
 }
-
-
-export default App
