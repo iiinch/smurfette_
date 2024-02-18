@@ -6,14 +6,14 @@ export default function App() {
 
  const login = async() => {
 
-     await supabase.auth.signInWithOAuth({
+     await supabase.auth.signIn({
       provider:"github" 
 
    });
   }; 
     useEffect(() => {
       
-  const session = supabase.auth.sessions();
+  const session = supabase.auth.session();
 
 console.log(session)
 
