@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"; 
+import React, { useEffect, useState } from "react"; 
 
 import { supabase } from "./lib/helper/supabaseClient";
 
@@ -10,13 +10,9 @@ useEffect(() => {
       
   const session = supabase.auth.session();
 
-  setUser.log(session?.user);
+  setUser(session?.user);
 
-
-
-  }, []);
-
-
+}, []);
 
  const login = async() => {
 
@@ -37,19 +33,17 @@ useEffect(() => {
    <div>
 
    {user ? (
+
     <div>
-    
-    
-    
     <h1>authenticated</h1>
 
-    <button onClick= {logout}>Logout</button>
+    <button onClick={logout}>Logout</button>
     </div>
    
    ) : (
 
   
- <button  onClick={login}>Login withn github</button>
+ <button  onClick={login}>Login with github</button>
   )} 
   </div>
 
