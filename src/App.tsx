@@ -1,51 +1,73 @@
-import React, { useEffect, useState } from "react"; 
-
-import { supabase } from "./lib/helper/supabaseClient";
-
+import React, { useEffect,useState } from "react";
+import{ supabase } from "./lib/helper/supabaseClient";
+import Todo from  "./components/todo";
 export default function App() {
+  const [user,setUser] = useState(null);
 
-const [user,setUser] = useState(null);
 
-useEffect(() => {
+  useEffect (()=> {
+
+    const session = supabase.auth.session();
+    setUser(session?.user);
+    
+
+    const authListener = supabase.auth.onAuthStateChange((event, session)=>{
+
+      switch (event) {
+        case "SIGNED_IN":
+
+        setUser(session?.user);
+          break;
+        case "SIGNED_OUT":
+
+       setUser(null);
+       break;
+          default:
+            break;
+
+      }
+    });
+
+
+
+    
+    return ()=> {
+     
       
-  const session = supabase.auth.session();
+    };
 
-  setUser(session?.user);
+  },
+  []);
 
-}, []);
+const login = async() =>{
 
- const login = async() => {
+  await supabase.auth.signIn({ 
 
-     await supabase.auth.signIn({
-      provider:"github" 
-
-
-   });
-  }; 
-  const logout = async () => {
-
-    await supabase.auth.signOut()
- }; 
+  provider:"github",
 
 
-  return (
+});
 
-   <div>
+};
+return (
 
-   {user ? (
+<div>
 
-    <div>
-    <h1>authenticated</h1>
+{user ? ( 
 
-    <button onClick={logout}>Logout</button>
-    </div>
-   
-   ) : (
 
-  
- <button  onClick={login}>Login with github</button>
-  )} 
-  </div>
 
+<Todo user={user} />
+
+) : (
+
+
+<button onClick={login}>Login with github</button>
+
+
+
+
+)}
+</div>
 );
-}   
+}
